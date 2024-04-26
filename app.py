@@ -2,6 +2,11 @@
 import json, os, sys, boto3
 import streamlit as st
 
+########################################
+from dotenv import load_dotenv
+
+########################################
+
 # Embeddings
 from langchain_community.embeddings import BedrockEmbeddings
 from langchain.llms.bedrock import Bedrock
@@ -19,6 +24,14 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 
 # Bedrock Client
+#######
+load_dotenv()
+session = boto3.Session(
+    aws_access_key_id=os.getenv("aws_access_key_id"),
+    aws_secret_access_key=os.getenv("aws_secret_access_key"),
+    region_name=os.getenv("region"),
+)
+#######
 bedrock = boto3.client(service_name="bedrock-runtime")
 bedrock_embeddings = BedrockEmbeddings(
     model_id="amazon.titan-embed-text-v1", client=bedrock

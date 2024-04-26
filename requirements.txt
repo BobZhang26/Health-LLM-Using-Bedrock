@@ -4,3 +4,4 @@ pypdf
 langchain
 streamlit
 faiss-cpu
+python-dotenv
