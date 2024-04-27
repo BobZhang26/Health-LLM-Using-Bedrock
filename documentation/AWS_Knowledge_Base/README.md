@@ -25,7 +25,7 @@ Refer to a requirements.txt file (or equivalent) outlining all necessary librari
 ### Knowledge Base Creation:
 
 * Create bucket.
-* Name the bucket knowledgebase-<your-awsaccount-number>.
+* Name the bucket knowledgebase-</your-awsaccount-number/>.
 * Choose Create folder and name it dataset, upload documents here.
 * Specify the data source location containing your knowledge base content 
 * For Embeddings model, select Titan Embedding G1 – Text.
