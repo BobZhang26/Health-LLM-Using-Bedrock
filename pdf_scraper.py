@@ -1,7 +1,7 @@
 from lib_helpers.pdf_helpers import download_pdfs_to_s3
 import os
 
-data_dir = "pdfs_from_bucket"
+data_dir = "temp_data"
 
 CONFIGURATION = (os.environ['API_KEY'], os.environ['SECRET_KEY'], os.environ['REGION'])
 
