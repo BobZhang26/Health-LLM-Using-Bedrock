@@ -1,6 +1,81 @@
-# Health-LLM-Using-Bedrock
+# Improving-Medical-Guidelines-for-Duke-Health-with-RAG-LLMs
 
-## environment setup
+A Cloud Computing Project meant to serve Duke Health's quest to optimize the process of updating current medical guidelines with the use of LLMs and RAGs. 
+
+## Table of Contents
+
+1. [Team Members](#Team)
+2. [Stakeholders](#Stakeholders)
+3. [Motivation](#Motivation)
+4. [Prior Work](#Prior)
+5. [Solutions Framework](#Architecture)
+6. [Setup](#Setup)
+
+## Team Members <a name="Team"></a>
+
+Contributors :
+
+- [Bob Zhang](https://github.com/BobZhang26)
+- [Osama Shawir](https://github.com/osama-shawir)
+- [Doyinsolami Oloaye](https://github.com/doyinsolamiolaoye)
+- [Eric Rios](https://github.com/EricR401S)
+- [Suim Park](https://github.com/suim-park)
+
+Faculty Mentor : [Prof. Noah Gift](http://noahgift.com/)
+Teaching Assistant Mentor : [Kahlia Hogg](https://www.linkedin.com/in/kahliahogg/)
+
+## Stakeholders <a name="Stakeholders"></a>
+
+- [Dr. Wong](https://www.linkedin.com/in/aianwong/)
+
+## Motivation <a name="Motivation"></a>
+
+Dr. Ian Wong and his team have to read an extremely high amount of articles to update the care guidelines for different diseases. Each year, multiple reputable publications are published (like the ones on Pubmed), and they illustrate different treatments to various diseases. After a set amount of time, guidelines are updated, potentially on a multi-year cycle, but then the next year's findings can render many of those revised guidelines outdated. Reading all of these resources require much time and much knowledge in the medical field, which is updating rapidly. It is a game of cat and mouse. 
+
+Rationally, one would consider using generative AI to help solve this problem. However, his concerns with using a normal LLM, besides the hallucinations (known as incorrect outputs), is using an updated and/or outdated guideline that hurts the patient (which could result in death). His other concern is patient privacy and the fact that models like ChatGPT do not provide sources when producing their responses. It is crucial for the doctor on the receiving end of a potential software solution to assess the sources producing any given guidelines. 
+
+## Prior Work <a name="Prior"></a>
+
+Various GPT like solutions have emerged to work with publications; however, many are available on the ChatGPT marketplace. As for our stakeholder, he requires being able to control the model and its privacy, so it's essential that any OpenAI solutions are discarded from our solutions framework.
+
+## Usage
+
+Before jumping into the solutions framework, if you want to be able to use the applications leveraged here, you can access the link and test it out for yourself. It can be done in one of two ways.
+
+1) Access the [link](). This is the public endpoint we prepared for our application. It may be deactivated in the future to reduce pricing. We will notify such deactivation in this description.
+
+2) Skip to the [Setup](#Setup) section, as it will provide directions on all of the nuances regarding AWS permissions that you would need in order to run this project.
+
+## Solution Framework <a name="Architecture"></a>
+
+![image](https://github.com/nogibjj/Improving-Medical-Guidelines-for-Duke-Health-with-RAG-LLMs/assets/70504872/4ffe3cfd-4815-4f12-899a-98b099627764)
+
+![image](https://github.com/nogibjj/Improving-Medical-Guidelines-for-Duke-Health-with-RAG-LLMs/assets/70504872/cf60376d-03ef-4e71-9bee-2120bfb4b9e0)
+
+
+To give our client the greatest amount of flexibility, we chose to leverage the skills gained in our Cloud Computing coursework to build the following solutions framework, which is built upon working approaches in the fiel. There are 3 key components in this framework, where different design decisions played a role.
+
+1) Frontend - This is a streamlit app that will instantiate both the LLMs and the RAG. Streamlit is often used in the field to demonstrate LLM applications, and it is very versatile, allowing the display of images, text and audio. The app would house the prompt boxes to allow Dr. Wong to evaluate the validity of the responses.
+
+2) AWS Bedrock LLAMA Model - LLAMA is a large language model published by META and DeepLearning.Ai. AWS Bedrock is an Amazon Web Service (AWS) that leverages foundational models and hosts them on the cloud. By hosting them, we have effectively abstracted the storage concerns for housing gigabytes worth of models. Another aspect that was extremely important to us was Bedrock's HIPAA certification.
+
+3) FAISS Vector Database - We needed a vector database to facilitate Retrieval Augmented Search (RAG), as the model would need to use an accurate knowledge base with which to provide answers. RAG is a technique for enhancing the accuracy and reliability of generative models with information coming from external sources. User queries are embedded into vectors, which are compared to embeddings in the special knowledge base. This knowledge base can be a wealth of documents for finance, media, pop culture, and/or medicine. As long as it requires a knowledge base, a wealth of documents can be purposed for a RAG database (which has vectors, making it a database of vectors). In addition, one additional feature is the ability to track the sources from which these answers come. Lastly, the last feature that makes this RAG relevant for this use case is the Facebook AI Similarity Search (Faiss) variant of the RAG database, which is optimizes the query search process for both efficiency and accuracy. 
+
+4) Deployment - Since the storage concerns of the model were abstracted, the application can be easily dockerized, with special attention to exposing the port 8501, Streamlit's default port. This image is then deployed to Kubernetes, where it can be easily scaled to many instances for use, if need be.
+
+In short, a Streamlit app will run the LLM and RAG in the background and show prompt boxes for the user to use. After being instantiated, the vector database will be updated if the user uploads a PDF. This app is dockerized and deployed with AWS Elastic Kubernetes Service, where it can be scaled according to user needs. Lastly, the user experiments with the prompting in order to validate accuracy. 
+
+## Setup <a name="Setup"></a>
+
+To run the following code, run the following commands.
+
+### Pre-requisites : AWS Permissions
+
+The very first step is to create a user in the IAM Control Center, located in the AWS console manager. Make sure the user has these permissions. These will be required to access AWS Bedrock, AWS Knowledge Base, and AWS EKS. You will need these regardless, whether you want to run this locally for trying the application or because you are a developer.
+
+[PICTURE NEEDED : OSAMA, SUIM, DOYIN] (OR BETTER YET SEND ME YOUR PERMISSIONS)
+
+### environment setup
 - 1. Create a virtual environment!!! **THIS IS VERY IMPORTANT**. This will help you to keep your dependencies in a separate environment and not mess up with your system dependencies. And `Dockerizing the application will be easier`.
 ```bash
 python3 -m venv venv
@@ -14,7 +89,7 @@ source venv/bin/activate
 make install
 ```
 
-## Credentials Setup
+### Credentials Setup
 - 1. Make sure you have the `aws credentials` in your system. If not, create one using the following command
 ```bash
 aws configure
@@ -26,8 +101,37 @@ AWS Secret Access Key [None]: YOUR_SECRET_KEY
 Default region name [None]: us-east-1
 Default output format [None]: json
 ```
+### IAMs setup
+![Alt Text](./iams.png)
 
-## model access setup
+### End User (Non-Development Purposes) Guide
+
+First, [install awscli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) in your local environment. Configure your credentials that you made, which house the permissions that you attached, in your local environment with `aws configure`. 
+
+```
+# running locally
+pip install -r requirements.txt
+streamlit run app.py
+
+# running locally with docker
+make run-local-docker
+```
+
+Play with the streamlit app locally by opening the following localhost link in your browser : .
+
+### Developer User
+
+Here are the main pieces to setup.
+
+1) The AWS Bedrock Setup
+
+2) Dockerization
+
+3) The AWS Knowledge Base Setup
+
+4) The Kubernetes Deployment
+
+### AWS Bedrock Setup  
 - 1. Login to the AWS console and go to the bedrock
 - 2. click get started
 - 3. On the left side, navigate to model access
@@ -36,10 +140,7 @@ Default output format [None]: json
 - 6. Scroll down to click `request model access`
 - 7. Wait for the approval. It should be immediate. 
 
-## IAMs setup
-![Alt Text](./iams.png)
-
-## Dockerizing the application
+### Dockerizing the application
 ** MAKE SURE YOUR DOCKER IS INSTALLED IN YOUR SYSTEM AND ACTIVATED**
 - 1. Build the docker image
 ```bash
@@ -53,4 +154,17 @@ docker run -p 8501:8501 health-llm:001
 ```
 This will run the docker image in the port `8501`. You can change the port as per your requirement. The first port is the port in your system (in this case I ran on github codespace the default port is `8501` but if you run on local machine, it should be `8000`) and the second port is the port in the docker image. You can define the port in the `Dockerfile` as well. See `EXPOSE 8501` in the `Dockerfile`
 
+### The AWS Knowledge Base Setup  
 
+### The Kubernetes Deployment
+
+## Licenses
+
+Creative Commons.
+
+## Project Status 
+
+
+## Next Steps
+
+1) Build a Medical PDF Ingestion Pipeline - the main challenge with this step is that [PubMed](https://pubmed.ncbi.nlm.nih.gov/), the main resource for medical journals and publications, has various sources for its publications. Some are hosted directly on the website, while some others are hosted on different journals and sites, all with different formats. In this latter case, some are web pages, while others are pdfs. One initial and reasonably complex hurdle is that some are available with special credentials. As for Pubmed's [API](https://www.ncbi.nlm.nih.gov/books/NBK25497/), EZ-Programming Utilities is notoriously complex, and other great programmers have developed tools to work with it, as much as possible. If you want to delve more into this topic, the great [Illia Zenkov](https://github.com/IliaZenkov) has produced a [special asynchronous scraper](https://github.com/IliaZenkov), which gets Pubmed links depending on the provided keywords. However, that is precisely the limitation: links, not PDFs. Here is a demo video demonstrating the challenges with Pubmed. 

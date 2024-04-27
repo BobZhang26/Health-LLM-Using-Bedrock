@@ -1,4 +1,14 @@
+black
+pylint
+pytest
 boto3
+botocore
+configparser
+awscli
+pypdf
+langchain
+streamlit
+faiss-cpu
+python-dotenv
 streamlit
 streamlit_extras
-
