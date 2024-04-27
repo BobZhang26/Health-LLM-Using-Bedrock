@@ -172,7 +172,7 @@ def upload_pdfs(s3resource, data_dir, bucket):
                 except Exception as e:
                     print(e, "Error uploading file")
         else:
-            print("File" + file + "is not a directory")
+            print("File" + folder + "is not a directory")
 
 def clean(data_dir):
     """Cleans data directory of extracted files."""
