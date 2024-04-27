@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: final-app-deployment
+  labels:
+    app: final-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: final-app
+  template:
+    metadata:
+      labels:
+        app: final-app
+    spec:
+      containers:
+      - name: final-app
+        image: final:v1
+        ports:
+        - containerPort: 8501
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          value: "AKIAYEHRFYABVQY7CXMA"
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "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"
+        - name: AWS_DEFAULT_REGION
+          value: "us-east-1"
+        resources:
+          requests:  # Corrected "reques" to "requests"
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
