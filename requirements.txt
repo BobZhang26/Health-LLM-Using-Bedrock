@@ -1,4 +1,9 @@
+black
+pylint
+pytest
 boto3
+botocore
+configparser
 awscli
 pypdf
 langchain
