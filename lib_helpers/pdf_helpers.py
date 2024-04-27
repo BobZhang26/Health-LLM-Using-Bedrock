@@ -205,9 +205,9 @@ def download_pdfs_to_s3(
     s3resource = setup(s3resource, configuration)
 
     begin_download(s3resource, data_dir, max_files=max_files, year=year)
-
+    print("Am I uploading?")
     upload_pdfs(s3resource, data_dir, s3_bucket_name)
-
+    print("Finished uploading?")
     if clean_data_directory:
         clean(data_dir)
 
