@@ -3,11 +3,6 @@ import json, os, sys, boto3
 import streamlit as st
 from botocore.exceptions import ClientError
 
-########################################
-from dotenv import load_dotenv
-
-########################################
-
 # Embeddings
 from langchain_community.embeddings import BedrockEmbeddings
 from langchain.llms.bedrock import Bedrock
@@ -23,6 +18,9 @@ from langchain_community.vectorstores import FAISS
 # LLM Models
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
+
+from dotenv import load_dotenv
+from PIL import Image
 
 
 def get_secret(secret_key):
@@ -55,15 +53,13 @@ os.environ["key_id"] = get_secret("AWS_ACCESS_KEY_ID")
 os.environ["secret_key"] = get_secret("AWS_SECRET_ACCESS_KEY")
 os.environ["def_region"] = get_secret("AWS_DEFAULT_REGION")
 
-# Bedrock Client
-#######
 load_dotenv()
 session = boto3.Session(
     aws_access_key_id=os.getenv("key_id"),
     aws_secret_access_key=os.getenv("secret_key"),
     region_name=os.getenv("def_region"),
 )
-#######
+
 bedrock = boto3.client(service_name="bedrock-runtime")
 bedrock_embeddings = BedrockEmbeddings(
     model_id="amazon.titan-embed-text-v1", client=bedrock
@@ -127,11 +123,24 @@ def get_response_llm(llm, vectorstore_faiss, query):
 
 
 def main():
-    st.set_page_config("Chat PDF")
+    st.set_page_config(
+        page_title="Health Encyclopedia",
+        page_icon="📚",
+        layout="wide",
+        initial_sidebar_state="expanded",
+    )
 
-    st.header("Chat with PDF using AWS Bedrock💁")
+    image = Image.open("What-is-digital-health-technology.jpg.jpg")
+    st.image(image, width=500)  # Set the width to the desired value
 
-    user_question = st.text_input("Ask a Question from the PDF Files")
+    st.title("Welcome to the Health Encyclopedia")
+    st.markdown(
+        """
+        Welcome to the Health Encyclopedia. Here you can ask questions about health and get detailed answers from our extensive database of health-related documents.
+        """
+    )
+
+    user_question = st.text_input("Ask Questions to our Health Encyclopedia:")
 
     with st.sidebar:
         st.title("Update Or Create Vector Store:")
@@ -142,14 +151,12 @@ def main():
                 get_vector_store(docs)
                 st.success("Done")
 
-    if st.button("Titan Output"):
-        with st.spinner("Processing..."):
+    if st.button("Search"):
+        with st.spinner("Searching..."):
             faiss_index = FAISS.load_local(
                 "faiss_index", bedrock_embeddings, allow_dangerous_deserialization=True
             )
             llm = get_titan_exp()
-
-            # faiss_index = get_vector_store(docs)
             st.write(get_response_llm(llm, faiss_index, user_question))
             st.success("Done")
 
