@@ -3,7 +3,8 @@ import os
 
 data_dir = "temp_data"
 
-CONFIGURATION = (os.environ['API_KEY'], os.environ['SECRET_KEY'], os.environ['REGION'])
+CONFIGURATION = (os.environ['API_KEY'], os.environ['SECRET_KEY'], 
+                 os.environ['ARXIV_REGION'], os.environ['TARGET_REGION'])
 
 BUCKET = os.environ['BUCKET_NAME']
 
