@@ -11,7 +11,7 @@ format:
 lint:
 	pylint --disable=R,C --ignore-patterns= *.py
 
-container-lint:
+build:
 	docker run --rm -i hadolint/hadolint < Dockerfile
 
 refactor: format lint
@@ -19,4 +19,4 @@ refactor: format lint
 deploy:
 	#deploy goes here
 		
-all: install lint format deploy
+all: install lint format
