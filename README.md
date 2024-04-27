@@ -92,13 +92,103 @@ CMD ["streamlit", "run", "app.py"]
 docker build -t health-llm:001 .
 ```
 The image has name `health-llm` and tag `001`. You can change the name and tag as per your requirement. This image will be stored in your DockerHub
+![Alt Text](./dockerimage.png)
 
 ### Containerization test 
 - Run the docker image
 ```bash
 docker run -p 8501:8501 health-llm:001
 ```
+![Alt Text](./container.png)
 This will run the docker image in the port `8501`. You can change the port as per your requirement. The first port is the port in your system (in this case I ran on github codespace the default port is `8501` but if you run on local machine, it should be `8000`) and the second port is the port in the docker image. You can define the port in the `Dockerfile` as well. See `EXPOSE 8501` in the `Dockerfile`
 
 
 # Deployment with Kubernetes
+Deploying applications with Kubernetes involves creating YAML configuration files that describe the desired state of your application and then applying these configurations to your Kubernetes cluster. With AWS EKS (Elastic Kubernetes Service) involves similar steps to deploying with Kubernetes in general, but with some AWS-specific considerations. Here's a general outline of the steps involved in deploying an application with Amazon EKS:
+
+1. **Containerize Your Application**: Dockerize your application by creating a Dockerfile that specifies how to build your application into a container image.
+![Alt Text](./container1.png)
+
+2. **Push Container Image to Container Registry**: Push your Docker image to a container registry that Amazon EKS can access. You can use Amazon ECR (Elastic Container Registry) or any other compatible container registry.
+```bash
+aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.<region>.amazonaws.com
+```
+```bash
+docker tag <local_image_name>:
+```
+```bash
+docker tag <image_tag> <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<repository_name>:
+```
+
+3. **Write Kubernetes Deployment Manifests**: Create Kubernetes Deployment and Service manifests (YAML files) that define the desired state of your application deployment.
+
+- Deployment: Describes how many instances (pods) of your application should run, what container image to use, and how to handle updates and rollbacks.
+```yaml
+    apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: final-app-deployment
+  labels:
+    app: final-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: final-app
+  template:
+    metadata:
+      labels:
+        app: final-app
+    spec:
+      containers:
+      - name: final-app
+        image: 558851538947.dkr.ecr.us-east-1.amazonaws.com/health_llm:latest
+        ports:
+        - containerPort: 8501
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          value: "your-value"
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "your-value"
+        - name: AWS_DEFAULT_REGION
+          value: "your-region"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+```
+- Service: Defines how clients can access your application. This can include load balancing, port forwarding, and service discovery.
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: final-app-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8501
+    protocol: TCP
+  selector:
+    app: final-app
+```
+
+4. **Set Up Amazon EKS Cluster**: Create an Amazon EKS cluster using the AWS Management Console, AWS CLI, or infrastructure-as-code tools like Terraform. Make sure the cluster has the necessary permissions to pull images from your container registry.
+![Alt Text](EKS-cluster.png)
+
+Also, create node for computational resources:
+![Alt Text](node.png)
+
+
+5. **Configure `kubectl`**: Configure your `kubectl` command-line tool to communicate with your Amazon EKS cluster. You can do this using the `aws eks update-kubeconfig` command.
+
+6. **Apply Deployment Manifests**: Use the `kubectl apply -f <manifest-file>` command to apply your Deployment and Service manifests to your Amazon EKS cluster.
+![Alt Text](describe_finalapp.png)
+
+7. **Deployed Web App**:
+![Alt Text](webapp.png)
+
+By following these steps, you can deploy and manage your applications effectively with Amazon EKS. Be sure to familiarize yourself with AWS-specific features and best practices for managing Kubernetes clusters on AWS.
