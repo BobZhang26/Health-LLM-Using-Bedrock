@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: final-app
-        image: final:v1
+        image: 558851538947.dkr.ecr.us-east-1.amazonaws.com/health_llm:latest
         ports:
         - containerPort: 8501
         env:
@@ -27,7 +27,7 @@ spec:
         - name: AWS_DEFAULT_REGION
           value: "us-east-1"
         resources:
-          requests:  # Corrected "reques" to "requests"
+          requests:
             memory: "128Mi"
             cpu: "100m"
           limits:

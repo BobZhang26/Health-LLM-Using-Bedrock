@@ -9,4 +9,4 @@ spec:
     targetPort: 8501
     protocol: TCP
   selector:
-    app: final-app
+    app: final-app
