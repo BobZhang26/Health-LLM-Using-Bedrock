@@ -54,3 +54,65 @@ docker run -p 8501:8501 health-llm:001
 This will run the docker image in the port `8501`. You can change the port as per your requirement. The first port is the port in your system (in this case I ran on github codespace the default port is `8501` but if you run on local machine, it should be `8000`) and the second port is the port in the docker image. You can define the port in the `Dockerfile` as well. See `EXPOSE 8501` in the `Dockerfile`
 
 
+## deployment using Kubernates
+- 1. Go to Google Cloud Platform and create a project
+
+- 2. Download the `gcloud` sdk from the following link
+```bash
+curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-359.0.0-linux-x86_64.tar.gz
+```
+- 3. Extract the tar file
+```bash
+tar -xvf google-cloud-sdk-359.0.0-linux-x86_64.tar.gz
+```
+- 4. Install the `gcloud` sdk
+```bash
+cd google-cloud-sdk
+./install.sh
+```
+- 5. Initialize the `gcloud` sdk
+```bash
+./bin/gcloud init
+```
+- 6. If you have problem about "mapping", try to use the following command
+```bash
+sed -i 's/collections.Mapping/collections.abc.Mapping/g' /workspaces/Health-LLM-Using-Bedrock/google-cloud-sdk/google-cloud-sdk/lib/googlecloudsdk/core/console/progress_tracker.py
+```
+
+- 7. Install google cloud cli
+```bash
+sudo apt-get install google-cloud-cli
+```
+- 8. Install kubectl
+```bash
+sudo apt-get install kubectl
+```
+
+### login to the google cloud
+```bash
+gcloud auth login
+```
+
+```bash
+gcloud container clusters get-credentials ["cluster name": health-llm-project] --zone [us-east1] --project ["project_id":reliable-mode-399404]
+```
+### push image to the google cloud container registry
+
+- Tag Your Docker Image: Before pushing the image to GCR, you need to tag it with the GCR repository URL. The format for the GCR repository URL is gcr.io/[PROJECT_ID]/[IMAGE_NAME], where [PROJECT_ID] is your Google Cloud project ID and [IMAGE_NAME] is the name you want to give to your Docker image.
+```bash
+docker tag [final:v1] gcr.io/[reliable-mode-399404]/[final]
+```
+
+- Authenticate Docker to GCR: Before you can push images to GCR, you need to authenticate Docker to GCR using the Google Cloud SDK. Run the following command:
+```bash
+gcloud auth configure-docker
+```
+
+- Push Your Docker Image to GCR: Once Docker is authenticated, you can push your Docker image to GCR using the following command:
+```bash
+docker push gcr.io/[PROJECT_ID]/[IMAGE_NAME]
+docker push gcr.io/reliable-mode-399404/final
+```
+
+
+

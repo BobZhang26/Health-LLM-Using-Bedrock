@@ -25,43 +25,43 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 
 
-def get_secret(secret_key):
+# def get_secret(secret_key):
 
-    secret_name = "aws_creds"
-    region_name = "us-east-1"
+#     secret_name = "aws_creds"
+#     region_name = "us-east-1"
 
-    # Create a Secrets Manager client
-    session = boto3.session.Session()
-    client = session.client(service_name="secretsmanager", region_name=region_name)
+#     # Create a Secrets Manager client
+#     session = boto3.session.Session()
+#     client = session.client(service_name="secretsmanager", region_name=region_name)
 
-    try:
-        get_secret_value_response = client.get_secret_value(SecretId=secret_name)
-    except ClientError as e:
-        # For a list of exceptions thrown, see
-        # https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
-        raise e
+#     try:
+#         get_secret_value_response = client.get_secret_value(SecretId=secret_name)
+#     except ClientError as e:
+#         # For a list of exceptions thrown, see
+#         # https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
+#         raise e
 
-    # Parse the SecretString into a dictionary
-    secret_dict = json.loads(get_secret_value_response["SecretString"])
+#     # Parse the SecretString into a dictionary
+#     secret_dict = json.loads(get_secret_value_response["SecretString"])
 
-    # Get the value of the secret key from the dictionary
-    secret_value = secret_dict.get(secret_key)
+#     # Get the value of the secret key from the dictionary
+#     secret_value = secret_dict.get(secret_key)
 
-    return secret_value
+#     return secret_value
 
 
 # Set the AWS credentials as environment variables
-os.environ["key_id"] = get_secret("AWS_ACCESS_KEY_ID")
-os.environ["secret_key"] = get_secret("AWS_SECRET_ACCESS_KEY")
-os.environ["def_region"] = get_secret("AWS_DEFAULT_REGION")
+# os.environ["key_id"] = get_secret("AWS_ACCESS_KEY_ID")
+# os.environ["secret_key"] = get_secret("AWS_SECRET_ACCESS_KEY")
+# os.environ["def_region"] = get_secret("AWS_DEFAULT_REGION")
 
 # Bedrock Client
 #######
 load_dotenv()
 session = boto3.Session(
-    aws_access_key_id=os.getenv("key_id"),
-    aws_secret_access_key=os.getenv("secret_key"),
-    region_name=os.getenv("def_region"),
+    aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+    aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+    region_name=os.getenv("AWS_DEFAULT_REGION"),
 )
 #######
 bedrock = boto3.client(service_name="bedrock-runtime")
