@@ -10,3 +10,5 @@ langchain
 streamlit
 faiss-cpu
 python-dotenv
+streamlit
+streamlit_extras
