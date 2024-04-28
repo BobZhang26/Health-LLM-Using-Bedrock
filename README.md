@@ -38,19 +38,21 @@ Rationally, one would consider using generative AI to help solve this problem. H
 
 Various GPT like solutions have emerged to work with publications; however, many are available on the ChatGPT marketplace. As for our stakeholder, he requires being able to control the model and its privacy, so it's essential that any OpenAI solutions are discarded from our solutions framework.
 
-## Usage
+## Usage <a name="Usage"></a>
 
 Before jumping into the solutions framework, if you want to be able to use the applications leveraged here, you can access the link and test it out for yourself. It can be done in one of two ways.
 
-1) Access the [link](). This is the public endpoint we prepared for our application. It may be deactivated in the future to reduce pricing. We will notify such deactivation in this description.
+1) Access the [link](http://a8ce9e3e89dba429aaa34ee8a1d555a8-1642442899.us-east-1.elb.amazonaws.com/). This is the public endpoint we prepared for our application. It may be deactivated in the future to reduce pricing. We will notify such deactivation in this description.
 
 2) Skip to the [Setup](#Setup) section, as it will provide directions on all of the nuances regarding AWS permissions that you would need in order to run this project.
 
 ## Solution Framework <a name="Architecture"></a>
 
-![image](https://github.com/nogibjj/Improving-Medical-Guidelines-for-Duke-Health-with-RAG-LLMs/assets/70504872/4ffe3cfd-4815-4f12-899a-98b099627764)
+![Alt Text](./imgs/architecture1.png)
 
-![image](https://github.com/nogibjj/Improving-Medical-Guidelines-for-Duke-Health-with-RAG-LLMs/assets/70504872/cf60376d-03ef-4e71-9bee-2120bfb4b9e0)
+![Alt Text](./imgs/architecture2.png)
+
+![Alt Text](./imgs/CI_CDpipeline_llm_RAG.png)
 
 
 To give our client the greatest amount of flexibility, we chose to leverage the skills gained in our Cloud Computing coursework to build the following solutions framework, which is built upon working approaches in the fiel. There are 3 key components in this framework, where different design decisions played a role.
@@ -102,7 +104,7 @@ Default region name [None]: us-east-1
 Default output format [None]: json
 ```
 ### IAMs setup
-![Alt Text](./iams.png)
+![Alt Text](./imgs/iams.png)
 
 ### End User (Non-Development Purposes) Guide
 
@@ -140,7 +142,7 @@ Here are the main pieces to setup.
 - 6. Scroll down to click `request model access`
 - 7. Wait for the approval. It should be immediate. 
 
-### Dockerizing the application
+### [Dockerizing the application](https://github.com/nogibjj/Health-LLM-Using-Bedrock/tree/main/docker%2Bdeployment)
 ** MAKE SURE YOUR DOCKER IS INSTALLED IN YOUR SYSTEM AND ACTIVATED**
 - 1. Build the docker image
 ```bash
@@ -184,7 +186,7 @@ Use the `kubectl apply -f <manifest-file>` command to apply your Deployment and 
 - 4. **Deployed [Web App](http://a8ce9e3e89dba429aaa34ee8a1d555a8-1642442899.us-east-1.elb.amazonaws.com/)**:
 ![Alt Text](./docker+deployment/webapp.png)
 
-For more information, please navigate to directory `docker+deployment`.
+For more information, please navigate to directory [`docker+deployment`](https://github.com/nogibjj/Health-LLM-Using-Bedrock/tree/main/docker%2Bdeployment).
 
 ## Licenses
 
