@@ -154,9 +154,7 @@ def upload_file(file_name, bucket, object_name=None):
     # Upload the file
     s3_client = boto3.client("s3")
     try:
-        
         response = s3_client.upload_file(file_name, bucket, object_name)
-        print("response for upload is " + response + "for filename:" + file_name)
     except ClientError as e:
         logging.error(e)
         return False
@@ -166,25 +164,18 @@ def upload_file(file_name, bucket, object_name=None):
 def upload_pdfs(s3resource, data_dir, bucket):
     """Uploads pdfs in data directory to s3 bucket."""
     for folder in os.listdir(data_dir):
-        if os.path.isdir(folder):
-            for file in os.listdir(data_dir + "/" + folder):
-                print("Uploading " + file + "...")
-                try:
-                    upload_file(data_dir + "/" + folder + "/" + file, bucket, file)
-                except Exception as e:
-                    print(e, "Error uploading file")
-        else:
-            print("File" + folder + "is not a directory")
+        for file in os.listdir(data_dir + "/" + folder):
+            print("Uploading " + file + "...")
+            try:
+                upload_file(data_dir + "/" + folder + "/" + file, bucket, file)
+            except Exception as e:
+                print(e, "Error uploading file")
 
 def clean(data_dir):
     """Cleans data directory of extracted files."""
     for folder in os.listdir(data_dir):
-        if os.path.isdir(folder):
-            for file in os.listdir(data_dir + "/" + folder):
-                os.remove(data_dir + "/" + folder + "/" + file)
-        else:
-            print("File" + folder + "is not a directory")
-
+        for file in os.listdir(data_dir + "/" + folder):
+            os.remove(data_dir + "/" + folder + "/" + file)
     return
 
 
@@ -206,9 +197,9 @@ def download_pdfs_to_s3(
     s3resource = setup(s3resource, configuration)
 
     begin_download(s3resource, data_dir, max_files=max_files, year=year)
-    print("Am I uploading?")
+
     upload_pdfs(s3resource, data_dir, s3_bucket_name)
-    print("Finished uploading?")
+
     if clean_data_directory:
         clean(data_dir)
 
