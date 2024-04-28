@@ -1,4 +1,4 @@
-# [Improving-Medical-Guidelines-for-Duke-Health-with-RAG-LLMs](http://a8ce9e3e89dba429aaa34ee8a1d555a8-1642442899.us-east-1.elb.amazonaws.com/)
+# [Improving Medical Guidelines for DukeHealth with LLMS + RAGS](http://a8ce9e3e89dba429aaa34ee8a1d555a8-1642442899.us-east-1.elb.amazonaws.com/)
 
 A Cloud Computing Project meant to serve Duke Health's quest to optimize the process of updating current medical guidelines with the use of LLMs and RAGs. 
 
@@ -26,6 +26,7 @@ Contributors :
 - [Suim Park](https://github.com/suim-park)
 
 Faculty Mentor : [Prof. Noah Gift](http://noahgift.com/)
+
 Teaching Assistant Mentor : [Kahlia Hogg](https://www.linkedin.com/in/kahliahogg/)
 
 ## Stakeholders <a name="Stakeholders"></a>
@@ -52,24 +53,25 @@ Before jumping into the solutions framework, if you want to be able to use the a
 
 ## Solution Framework <a name="Architecture"></a>
 
-![Alt Text](./imgs/architecture1.png)
+![alt text](./imgs/architecture01.png)
 
 ![Alt Text](./imgs/architecture2.png)
 
 ![Alt Text](./imgs/CI_CDpipeline_llm_RAG.png)
 
-
-To give our client the greatest amount of flexibility, we chose to leverage the skills gained in our Cloud Computing coursework to build the following solutions framework, which is built upon working approaches in the fiel. There are 3 key components in this framework, where different design decisions played a role.
+To give our stakeholder the greatest amount of flexibility, we chose to leverage the skills gained in our Cloud Computing coursework to build the following solutions framework, which is built upon working approaches in the fiel. There are 5 key components in this framework, where different design decisions played a role.
 
 1) Frontend - This is a streamlit app that will instantiate both the LLMs and the RAG. Streamlit is often used in the field to demonstrate LLM applications, and it is very versatile, allowing the display of images, text and audio. The app would house the prompt boxes to allow Dr. Wong to evaluate the validity of the responses.
 
 2) AWS Bedrock LLAMA Model - LLAMA is a large language model published by META and DeepLearning.Ai. AWS Bedrock is an Amazon Web Service (AWS) that leverages foundational models and hosts them on the cloud. By hosting them, we have effectively abstracted the storage concerns for housing gigabytes worth of models. Another aspect that was extremely important to us was Bedrock's HIPAA certification.
 
-3) FAISS Vector Database - We needed a vector database to facilitate Retrieval Augmented Search (RAG), as the model would need to use an accurate knowledge base with which to provide answers. RAG is a technique for enhancing the accuracy and reliability of generative models with information coming from external sources. User queries are embedded into vectors, which are compared to embeddings in the special knowledge base. This knowledge base can be a wealth of documents for finance, media, pop culture, and/or medicine. As long as it requires a knowledge base, a wealth of documents can be purposed for a RAG database (which has vectors, making it a database of vectors). In addition, one additional feature is the ability to track the sources from which these answers come. Lastly, the last feature that makes this RAG relevant for this use case is the Facebook AI Similarity Search (Faiss) variant of the RAG database, which is optimizes the query search process for both efficiency and accuracy. 
+3) Vector Database (Knowledge Base) - We needed a vector database to facilitate Retrieval Augmented Search (RAG), as the model would need to use an accurate knowledge base with which to provide answers. RAG is a technique for enhancing the accuracy and reliability of generative models with information coming from external sources. User queries are embedded into vectors, which are compared to embeddings in the special knowledge base. This knowledge base can be a wealth of documents for finance, media, pop culture, and/or medicine. As long as it requires a knowledge base, a wealth of documents can be purposed for a RAG database (which has vectors, making it a database of vectors). In addition, one additional feature is the ability to track the sources from which these answers come. Lastly, if curious about RAG for LLMs, consult NVIDIA's excellent [resource](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) on it.
 
-4) Deployment - Since the storage concerns of the model were abstracted, the application can be easily dockerized, with special attention to exposing the port 8501, Streamlit's default port. This image is then deployed to Kubernetes, where it can be easily scaled to many instances for use, if need be.
+4) PDF Ingestion - For purposes of the example, ease of programmatic access, and lack of access to Pubmed publications, the pdfs ingested, aside from a few medical examples, were mostly from arXiv, so many thanks to them and their S3 bucket. The pdfs are downloaded and sent to our S3 bucket, which is directly linked to the AWS knowledge base, which allows the outputs to be connected to their sources. Upon every push, the pdfs are routinely ingested into S3 and synced with the knowledge base. 
 
-In short, a Streamlit app will run the LLM and RAG in the background and show prompt boxes for the user to use. After being instantiated, the vector database will be updated if the user uploads a PDF. This app is dockerized and deployed with AWS Elastic Kubernetes Service, where it can be scaled according to user needs. Lastly, the user experiments with the prompting in order to validate accuracy. 
+5) Deployment - Since the storage concerns of the model were abstracted, the application can be easily dockerized, with special attention to exposing the port 8501, Streamlit's default port. Upon every push, this image is then deployed to Kubernetes, where it can be easily scaled to many instances for use, if need be.
+
+In short, a Streamlit app will run the LLM and RAG in the background and show the prompt box for the user to use. After being instantiated, the vector database will be updated if the user uploads a PDF. This app is dockerized and deployed with AWS Elastic Kubernetes Service, where it can be scaled according to user needs. Lastly, the user experiments with the prompting in order to validate accuracy. 
 
 ## Setup <a name="Setup"></a>
 
@@ -160,6 +162,56 @@ This will run the docker image in the port `8501`. You can change the port as pe
 
 ### The AWS Knowledge Base Setup  
 
+This project implements a contextual chatbot application built on Amazon Bedrock Knowledge Bases using Retrieval-Augmented Generation (RAG).
+
+#### Technical Specifications:
+
+* Knowledge Base Name: knowledgebase-</your-awsaccount-number/>
+* Embedding Model: Titan Embedding G1 – Text.
+* Foundation Model: Anthropic Claude
+* Vector Database: Amazon Opensearch Severless vector
+* AWS Cloud Formation to deploy lambda function for retrival
+
+#### Project Dependencies:
+
+Refer to a requirements.txt file (or equivalent) outlining all necessary libraries and their versions.
+
+#### Prerequisites:
+
+* An AWS account with access to Amazon Bedrock services.
+* Local development environment with Python and access to AWS CLI.
+* Data Preparation:
+    Organize your chatbot's knowledge base content (documents, FAQs) by uploading the documents in a AWS S3 bucket.
+    Ensure data format compatibility with Amazon Bedrock (e.g., text files, pdfs).
+
+#### Knowledge Base Creation:
+
+* Create bucket.
+* Name the bucket knowledgebase-</your-awsaccount-number/>.
+* Choose Create folder and name it dataset, upload documents here.
+* Specify the data source location containing your knowledge base content 
+* For Embeddings model, select Titan Embedding G1 – Text.
+* For Vector database, you can either select Quick create a new vector store or Choose a vector store you have created and then sync.
+
+#### Lambda function Creation:
+
+* Create folder in the originally created s3 bucket and name it lambdalayer.
+* Upload the knowledgebase-lambdalayer.zip file available under the /lambda/layer folder in this repo and upload.
+* On the AWS CloudFormation service home page, create a stack.
+* Upload the .yaml file under the cfn folder as a template file to create the stack
+* Choose the appropriate knowledge ID from your created knowledge base and also the LambdaLayers3bucket name where the lambda layer code was uploaded earlier.
+* SUbmit and Verify that the CloudFormation template ran successfully.
+
+#### Test function Locally
+
+* Clone the repository
+* Create environment and pip install requirements.txt file
+* Navigate to the /streamlit folder.
+* Run the following command to instantiate the chatbot application:
+```
+python -m streamlit run chatbot.py
+```
+
 ### The Kubernetes Deployment
 Deploying applications with Kubernetes involves creating YAML configuration files that describe the desired state of your application and then applying these configurations to your Kubernetes cluster. With AWS EKS (Elastic Kubernetes Service) involves similar steps to deploying with Kubernetes in general, but with some AWS-specific considerations. 
 
@@ -196,7 +248,8 @@ Creative Commons.
 
 ## Project Status 
 
+It is completed as of April, 2024.
 
 ## Next Steps
 
-1) Build a Medical PDF Ingestion Pipeline - the main challenge with this step is that [PubMed](https://pubmed.ncbi.nlm.nih.gov/), the main resource for medical journals and publications, has various sources for its publications. Some are hosted directly on the website, while some others are hosted on different journals and sites, all with different formats. In this latter case, some are web pages, while others are pdfs. One initial and reasonably complex hurdle is that some are available with special credentials. As for Pubmed's [API](https://www.ncbi.nlm.nih.gov/books/NBK25497/), EZ-Programming Utilities is notoriously complex, and other great programmers have developed tools to work with it, as much as possible. If you want to delve more into this topic, the great [Illia Zenkov](https://github.com/IliaZenkov) has produced a [special asynchronous scraper](https://github.com/IliaZenkov), which gets Pubmed links depending on the provided keywords. However, that is precisely the limitation: links, not PDFs. Here is a demo video demonstrating the challenges with Pubmed. 
+1) Build a Medical PDF Ingestion Pipeline - the main challenge with this step is that [PubMed](https://pubmed.ncbi.nlm.nih.gov/), the main resource for medical journals and publications, has various sources for its publications. Some are hosted directly on the website, while some others are hosted on different journals and sites, all with different formats. In this latter case, some are web pages, while others are pdfs. One initial and reasonably complex hurdle is that some are available with special credentials. As for Pubmed's [API](https://www.ncbi.nlm.nih.gov/books/NBK25497/), EZ-Programming Utilities is notoriously complex, and other great programmers have developed tools to work with it, as much as possible. If you want to delve more into this topic, the great [Illia Zenkov](https://github.com/IliaZenkov) has produced a [special asynchronous scraper](https://github.com/IliaZenkov), which gets Pubmed links depending on the provided keywords. However, that is precisely the limitation: links, not PDFs. Here is [in-depth documentation](https://github.com/nogibjj/Health-LLM-Using-Bedrock/blob/main/documentation/PDFIngestion/README.md) demonstrating the challenges with Pubmed. 
