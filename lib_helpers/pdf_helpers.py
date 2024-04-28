@@ -177,8 +177,11 @@ def upload_pdfs(s3resource, data_dir, bucket):
 def clean(data_dir):
     """Cleans data directory of extracted files."""
     for folder in os.listdir(data_dir):
-        for file in os.listdir(data_dir + "/" + folder):
-            os.remove(data_dir + "/" + folder + "/" + file)
+        if os.path.isdir(data_dir + "/" + folder):
+            for file in os.listdir(data_dir + "/" + folder):
+                os.remove(data_dir + "/" + folder + "/" + file)
+        else:
+            pass
     return
 
 
