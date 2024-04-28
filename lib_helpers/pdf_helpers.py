@@ -154,12 +154,11 @@ def upload_file(file_name, bucket, object_name=None, prefix = ''):
     # Upload the file
     s3_client = boto3.client("s3")
     try:
-        response = s3_client.upload_file(file_name, bucket, prefix + "/"  + object_name)
+        response = s3_client.upload_file(file_name, bucket, prefix + "/" + object_name)
     except ClientError as e:
         logging.error(e)
         return False
     return True
-
 
 def upload_pdfs(s3resource, data_dir, bucket, prefix):
     """Uploads pdfs in data directory to s3 bucket."""
@@ -173,6 +172,19 @@ def upload_pdfs(s3resource, data_dir, bucket, prefix):
                     print(e, "Error uploading file")
         else:
             print(folder + "is not a folder")
+
+def upload_pdf_from_streamlit(filename):
+    """Uploads pdfs in data directory to s3 bucket."""
+    # bucket = os.environ['BUCKET_NAME']
+    # prefix = os.environ['PREFIX']
+    print("Uploading " + filename + "...")
+    try:
+        # upload_file(filename, bucket, filename, prefix)
+        upload_file(filename, "knowledgebase-667719398048", filename, "dataset")
+        return True
+    except Exception as e:
+        print(e, "Error uploading file")
+    return False
 
 def clean(data_dir):
     """Cleans data directory of extracted files."""
