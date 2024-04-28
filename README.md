@@ -1,7 +1,7 @@
 # [Improving Medical Guidelines for DukeHealth with LLMS + RAGS](http://a8ce9e3e89dba429aaa34ee8a1d555a8-1642442899.us-east-1.elb.amazonaws.com/)
 
 A Cloud Computing Project meant to serve Duke Health's quest to optimize the process of updating current medical guidelines with the use of LLMs and RAGs. 
-
+![Alt Text](./imgs/llm_rag.png)
 ## :movie_camera: Demo Video
 Here is our demo video for __`Health LLM using Bedrock`__ project with Group 26 and Group 34. <br/>
 🔗 [Demo Video](https://youtu.be/QyiOqZEmZyE)
