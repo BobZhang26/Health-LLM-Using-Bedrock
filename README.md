@@ -1,6 +1,6 @@
 # Health-LLM-Using-Bedrock
 
-# environment setup
+# Environment Setup
 - 1. Create a virtual environment!!! **THIS IS VERY IMPORTANT**. This will help you to keep your dependencies in a separate environment and not mess up with your system dependencies. And `Dockerizing the application will be easier`.
 ```bash
 python3 -m venv venv
