@@ -16,9 +16,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Configure AWS environment variables
-ENV AWS_ACCESS_KEY_ID=AKIAYEHRFYABVQY7CXMA
-ENV AWS_SECRET_ACCESS_KEY=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
-ENV AWS_DEFAULT_REGION=us-east-1
+# ENV AWS_ACCESS_KEY_ID=AKIAYEHRFYABVQY7CXMA
+# ENV AWS_SECRET_ACCESS_KEY=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
+# ENV AWS_DEFAULT_REGION=us-east-1
 
 # Expose port 8501 to the outside world. This is the port Streamlit runs on the container
 EXPOSE 8501
