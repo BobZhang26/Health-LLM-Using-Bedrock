@@ -178,6 +178,7 @@ def upload_pdf_from_streamlit(filename):
     # bucket = os.environ['BUCKET_NAME']
     # prefix = os.environ['PREFIX']
     print("Uploading " + filename + "...")
+    filename = filename.replace("../pdfs/", "")
     try:
         # upload_file(filename, bucket, filename, prefix)
         upload_file(filename, "knowledgebase-667719398048", filename, "dataset")
