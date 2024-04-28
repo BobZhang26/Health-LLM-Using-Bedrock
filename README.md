@@ -3,7 +3,7 @@
 A Cloud Computing Project meant to serve Duke Health's quest to optimize the process of updating current medical guidelines with the use of LLMs and RAGs. 
 
 ## :movie_camera: Demo Video
-Here is our demo video for __`Health LLM using Bedrock`__ project with Group 26 and Group 30. <br/>
+Here is our demo video for __`Health LLM using Bedrock`__ project with Group 26 and Group 34. <br/>
 🔗 [Demo Video]()
 
 ## Table of Contents
