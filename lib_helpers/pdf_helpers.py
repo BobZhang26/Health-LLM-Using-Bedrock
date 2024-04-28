@@ -164,12 +164,15 @@ def upload_file(file_name, bucket, object_name=None):
 def upload_pdfs(s3resource, data_dir, bucket):
     """Uploads pdfs in data directory to s3 bucket."""
     for folder in os.listdir(data_dir):
-        for file in os.listdir(data_dir + "/" + folder):
-            print("Uploading " + file + "...")
-            try:
-                upload_file(data_dir + "/" + folder + "/" + file, bucket, file)
-            except Exception as e:
-                print(e, "Error uploading file")
+        if os.path.isdir(data_dir + "/" + folder):
+            for file in os.listdir(data_dir + "/" + folder):
+                print("Uploading " + file + "...")
+                try:
+                    upload_file(data_dir + "/" + folder + "/" + file, bucket, file)
+                except Exception as e:
+                    print(e, "Error uploading file")
+        else:
+            print(folder + "is not a folder")
 
 def clean(data_dir):
     """Cleans data directory of extracted files."""
