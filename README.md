@@ -79,8 +79,6 @@ To run the following code, run the following commands.
 
 The very first step is to create a user in the IAM Control Center, located in the AWS console manager. Make sure the user has these permissions. These will be required to access AWS Bedrock, AWS Knowledge Base, and AWS EKS. You will need these regardless, whether you want to run this locally for trying the application or because you are a developer.
 
-[PICTURE NEEDED : OSAMA, SUIM, DOYIN] (OR BETTER YET SEND ME YOUR PERMISSIONS)
-
 ### environment setup
 - 1. Create a virtual environment!!! **THIS IS VERY IMPORTANT**. This will help you to keep your dependencies in a separate environment and not mess up with your system dependencies. And `Dockerizing the application will be easier`.
 ```bash
