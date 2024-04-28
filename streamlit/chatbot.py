@@ -2,12 +2,12 @@ import streamlit as st
 import boto3
 import json
 from streamlit_extras.add_vertical_space import add_vertical_space
-from streamlit_chat import message
+# from streamlit_chat import message
 #import random
 #import string
 
 region = boto3.Session().region_name
-region = "us-east-1"
+region = "us-west-2"
 session = boto3.Session(region_name=region)
 lambda_client = session.client('lambda')
 #print(lambda_client)
