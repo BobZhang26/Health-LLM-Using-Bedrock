@@ -37,7 +37,7 @@ Default output format [None]: json
 - 7. Wait for the approval. It should be immediate. 
 
 ## IAMs setup
-![Alt Text](./iams.png)
+![Alt Text](../imgs/iams.png)
 
 # Dockerizing the application
 Dockerization can be split into 3 stages: Dockerfile, image and containerization. The Dockerfile contains the necessary instructions that needed to create a Docker image. A Dockerfile is a text document that contains a set of instructions for building a Docker image. These instructions define the steps needed to create a reproducible and portable containerized environment.
