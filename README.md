@@ -147,7 +147,7 @@ Here are the main pieces to setup.
 - 7. Wait for the approval. It should be immediate. 
 
 ### [Dockerizing the application](https://github.com/nogibjj/Health-LLM-Using-Bedrock/tree/main/docker%2Bdeployment)
-** MAKE SURE YOUR DOCKER IS INSTALLED IN YOUR SYSTEM AND ACTIVATED**
+**MAKE SURE YOUR DOCKER IS INSTALLED IN YOUR SYSTEM AND ACTIVATED**
 - 1. Build the docker image
 ```bash
 docker build -t health-llm:001 .
