@@ -53,9 +53,7 @@ Before jumping into the solutions framework, if you want to be able to use the a
 
 ## Solution Framework <a name="Architecture"></a>
 
-![alt text](./imgs/architecture01.png)
-
-![Alt Text](./imgs/architecture2.png)
+![alt text](./imgs/Architecture Diagram Cloud Health.png)
 
 ![Alt Text](./imgs/CI_CDpipeline_llm_RAG.png)
 
