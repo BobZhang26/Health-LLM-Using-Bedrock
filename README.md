@@ -1,4 +1,4 @@
-# Improving-Medical-Guidelines-for-Duke-Health-with-RAG-LLMs
+# [Improving-Medical-Guidelines-for-Duke-Health-with-RAG-LLMs](http://a8ce9e3e89dba429aaa34ee8a1d555a8-1642442899.us-east-1.elb.amazonaws.com/)
 
 A Cloud Computing Project meant to serve Duke Health's quest to optimize the process of updating current medical guidelines with the use of LLMs and RAGs. 
 
@@ -157,6 +157,34 @@ This will run the docker image in the port `8501`. You can change the port as pe
 ### The AWS Knowledge Base Setup  
 
 ### The Kubernetes Deployment
+Deploying applications with Kubernetes involves creating YAML configuration files that describe the desired state of your application and then applying these configurations to your Kubernetes cluster. With AWS EKS (Elastic Kubernetes Service) involves similar steps to deploying with Kubernetes in general, but with some AWS-specific considerations. 
+
+- 1. **Create docker image and push to AWS ECR**
+```bash
+aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.<region>.amazonaws.com
+```
+```bash
+docker tag <local_image_name>:
+```
+```bash
+docker tag <image_tag> <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<repository_name>:
+```
+
+- 2. **Set Up Amazon EKS Cluster**: 
+Create an Amazon EKS cluster using the AWS Management Console, AWS CLI, or infrastructure-as-code tools like Terraform. Make sure the cluster has the necessary permissions to pull images from your container registry.
+![Alt Text](./docker+deployment/EKS-cluster.png)
+
+Also, create node for computational resources:
+![Alt Text](./docker+deployment/node.png)
+
+- 3. **Apply Deployment Manifests**: 
+Use the `kubectl apply -f <manifest-file>` command to apply your Deployment and Service manifests to your Amazon EKS cluster.
+![Alt Text](./docker+deployment/describe_finalapp.png)
+
+- 4. **Deployed [Web App](http://a8ce9e3e89dba429aaa34ee8a1d555a8-1642442899.us-east-1.elb.amazonaws.com/)**:
+![Alt Text](./docker+deployment/webapp.png)
+
+For more information, please navigate to directory `docker+deployment`.
 
 ## Licenses
 
