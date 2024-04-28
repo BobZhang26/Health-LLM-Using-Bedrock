@@ -151,12 +151,24 @@ def main():
                 get_vector_store(docs)
                 st.success("Done")
 
+    # Add a radio button for the user to choose the model
+    model_choice = st.radio("Choose a model:", ("Titan", "Mistral Large"))
+
     if st.button("Search"):
         with st.spinner("Searching..."):
             faiss_index = FAISS.load_local(
                 "faiss_index", bedrock_embeddings, allow_dangerous_deserialization=True
             )
-            llm = get_titan_exp()
+
+            # Create the appropriate model based on the user's choice
+            if model_choice == "Titan":
+                llm = get_titan_exp()
+            else:
+                llm = Bedrock(
+                    model_id="mistral.mistral-large-2402-v1:0",
+                    client=bedrock,
+                )
+
             st.write(get_response_llm(llm, faiss_index, user_question))
             st.success("Done")
 
