@@ -138,7 +138,7 @@ def begin_download(s3resource, data_dir, max_files=10, year=2024):
                     pass
 
 
-def upload_file(file_name, bucket, object_name=None):
+def upload_file(file_name, bucket, object_name=None, prefix = ''):
     """Upload a file to an S3 bucket
 
     :param file_name: File to upload
@@ -154,21 +154,21 @@ def upload_file(file_name, bucket, object_name=None):
     # Upload the file
     s3_client = boto3.client("s3")
     try:
-        response = s3_client.upload_file(file_name, bucket, object_name)
+        response = s3_client.upload_file(file_name, bucket, prefix + object_name)
     except ClientError as e:
         logging.error(e)
         return False
     return True
 
 
-def upload_pdfs(s3resource, data_dir, bucket):
+def upload_pdfs(s3resource, data_dir, bucket, prefix):
     """Uploads pdfs in data directory to s3 bucket."""
     for folder in os.listdir(data_dir):
         if os.path.isdir(data_dir + "/" + folder):
             for file in os.listdir(data_dir + "/" + folder):
                 print("Uploading " + file + "...")
                 try:
-                    upload_file(data_dir + "/" + folder + "/" + file, bucket, file)
+                    upload_file(data_dir + "/" + folder + "/" + file, bucket, file, prefix)
                 except Exception as e:
                     print(e, "Error uploading file")
         else:
@@ -188,6 +188,7 @@ def clean(data_dir):
 def download_pdfs_to_s3(
     configuration,
     s3_bucket_name,
+    prefix,
     data_dir,
     max_files=3,
     year=2024,
@@ -204,7 +205,7 @@ def download_pdfs_to_s3(
 
     begin_download(s3resource, data_dir, max_files=max_files, year=year)
 
-    upload_pdfs(s3resource, data_dir, s3_bucket_name)
+    upload_pdfs(s3resource, data_dir, s3_bucket_name, prefix)
 
     if clean_data_directory:
         clean(data_dir)

@@ -47,6 +47,7 @@ jobs:
             ARXIV_REGION: us-east-1
             TARGET_REGION: ${{ secrets.S3_BUCKET_REGION }}
             BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+            PREFIX : ${{ secrets.S3_BUCKET_PREFIX }}
         run:
             python pdf_scraper.py
 

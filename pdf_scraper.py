@@ -8,6 +8,8 @@ CONFIGURATION = (os.environ['API_KEY'], os.environ['SECRET_KEY'],
 
 BUCKET = os.environ['BUCKET_NAME']
 
+PREFIX = os.environ['PREFIX']
+
 if __name__ == "__main__":
-    download_pdfs_to_s3(CONFIGURATION, BUCKET, data_dir, max_files=3, 
+    download_pdfs_to_s3(CONFIGURATION, BUCKET, PREFIX, data_dir,  max_files=3, 
                         year=2024, clean_data_directory=True)
