@@ -246,9 +246,11 @@ For more information, please navigate to directory [`docker+deployment`](https:/
 
 Creative Commons.
 
-## Project Status 
+## Project Status and Monitoring
 
-It is completed as of April, 2024.
+It is completed as of April, 2024. Implementing monitoring and metrics collection for a service is crucial for evaluating the system's health and performance. By implementing monitoring and metrics collection for your service, you can gain valuable insights into its behavior, identify potential issues proactively, and ensure optimal performance and reliability.
+
+![Alt Text](./imgs/cloudwatch.png)
 
 ## Next Steps
 
