@@ -1,0 +1,9 @@
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run script
+      run: python ingest.py
+      env:
+        KNOWLEDGE_BASE_ID: ${{ secrets.KNOWLEDGE_BASE_ID }}
+        DATA_SOURCE_ID: ${{ secrets.DATA_SOURCE_ID }}
