@@ -7,7 +7,7 @@ from streamlit_chat import message
 #import string
 
 region = boto3.Session().region_name
-region = "us-west-2"
+region = "us-east-1"
 session = boto3.Session(region_name=region)
 lambda_client = session.client('lambda')
 #print(lambda_client)
