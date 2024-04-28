@@ -4,7 +4,7 @@ A Cloud Computing Project meant to serve Duke Health's quest to optimize the pro
 
 ## :movie_camera: Demo Video
 Here is our demo video for __`Health LLM using Bedrock`__ project with Group 26 and Group 34. <br/>
-🔗 [Demo Video]()
+🔗 [Demo Video](https://youtu.be/QyiOqZEmZyE)
 
 ## Table of Contents
 
