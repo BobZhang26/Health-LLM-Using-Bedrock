@@ -1,3 +1,4 @@
+[![Deploy to ECR](https://github.com/nogibjj/Health-LLM-Using-Bedrock/actions/workflows/deploycloud.yaml/badge.svg)](https://github.com/nogibjj/Health-LLM-Using-Bedrock/actions/workflows/deploycloud.yaml)
 # [Improving Medical Guidelines for DukeHealth with LLMS + RAGS](http://a8ce9e3e89dba429aaa34ee8a1d555a8-1642442899.us-east-1.elb.amazonaws.com/)
 
 A Cloud Computing Project meant to serve Duke Health's quest to optimize the process of updating current medical guidelines with the use of LLMs and RAGs. 
