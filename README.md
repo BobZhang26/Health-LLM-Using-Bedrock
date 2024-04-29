@@ -4,7 +4,7 @@ A Cloud Computing Project meant to serve Duke Health's quest to optimize the pro
 ![Alt Text](./imgs/llm_rag.png)
 ## :movie_camera: Demo Video
 Here is our demo video for __`Improving Medical Guidelines for DukeHealth with LLMS + RAGS`__ project with Group 26 and Group 34. <br/>
-🔗 [Demo Video](https://youtu.be/OpzJQJJnCrc)
+🔗 [Demo Video](https://youtu.be/bFbGuXQaFjg)
 
 ## Table of Contents
 
