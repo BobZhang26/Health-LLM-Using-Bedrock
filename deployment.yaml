@@ -21,9 +21,11 @@ spec:
         - containerPort: 8501
         env:
         - name: AWS_ACCESS_KEY_ID
-          value: "AKIAYEHRFYABVQY7CXMA"
+          # value: "AKIAYEHRFYABVQY7CXMA"
+          value: "your-key-id"
         - name: AWS_SECRET_ACCESS_KEY
-          value: "RfnF2m9qQfYW/SM7upyiLK48v5ZvwJaYRcIdKkYT"
+          # value: "RfnF2m9qQfYW/SM7upyiLK48v5ZvwJaYRcIdKkYT"
+          value: "your-secrete-key"
         - name: AWS_DEFAULT_REGION
           value: "us-east-1"
         resources:
