@@ -37,7 +37,7 @@ Just by observing the links on both pages, one can appreciate the sizable diffic
 
 ## Final Note : Hope
 
-[Illia Zenkov] (https://github.com/IliaZenkov) has done excellent work in producing an asynchronous scraper that is able to scrape quickly. However, the drawback is that one needs to input keywords to obtain article links related to these keywords. Secondly, all one gets is a dataframe of records corresponding to articles, where one of the columns is a link (and that is without addressing the occassional missing values). Here is an image of a scrape I completed with the following keywords : video games and diabetes.
+[Illia Zenkov](https://github.com/IliaZenkov) has done excellent work in producing an asynchronous scraper that is able to scrape quickly. However, the drawback is that one needs to input keywords to obtain article links related to these keywords. Secondly, all one gets is a dataframe of records corresponding to articles, where one of the columns is a link (and that is without addressing the occassional missing values). Here is an image of a scrape I completed with the following keywords : video games and diabetes.
 
 ![alt text](image-6.png)
 
